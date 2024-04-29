@@ -1,0 +1,45 @@
+<header class="text-gray-400 bg-gray-900 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a routerLink="/" class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl">Store</span>
+        </a>
+        <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+            <a class="mr-5 hover:text-white" routerLink="/products">Products</a>
+            <div (mouseenter)="showCart.set(true)" (mouseleave)="showCart.set(false)">
+                <a class="mr-5 hover:text-white checkout relative" routerLink="/checkout">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    </svg>
+                    <span class="absolute right-0 px-1 text-lg font-bold text-white -top-1">
+                        {{cartStore.productsCount()}}
+                    </span>
+                    @if (showCart() && cartStore.productsCount()) {
+                    <div [ngClass]="{'show-cart-animation': showCart()}"
+                        class="absolute right-0 top-20 z-30 w-80 p-2 mt-2 text-white rounded-sm bg-slate-400">
+                        @for (product of cartStore.products(); track $index) {
+                        <div class="flex items-center justify-between">
+                            <span>
+                                {{product.qty}} 
+                                {{product.title | slice:0:10}}
+                                {{product.subTotal || product.price |currency}}
+                            </span>
+                        </div>
+                        }
+                        <hr class="my-4 border-gray-500 border-t-1">
+                        <div class="flex justify-between py-3 font-light">
+                            Total: <span class="not-italic font-bold">{{cartStore.totalAmount() | currency}}</span>
+                        </div>
+                    </div>
+                    }
+                </a>
+            </div>
+        </nav>
+    </div>
+</header>
